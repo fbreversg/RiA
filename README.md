@@ -1,2 +1,2 @@
-# grep-lite-RiA
+# RiA
 grep-lite from Rust in Action
