@@ -1,16 +1,21 @@
+//rustdoc file.rs
+
+//! Simulating files one step at a time. 
+
 #![allow(dead_code)]
 
 use std::fmt;
 use std::fmt::{Display};
 
+/// Represents a "file", which probably lives on a file system.
 #[derive(Debug, PartialEq)]
-enum FileState {
+pub enum FileState {
     Open,
     Closed,
 }
 
 #[derive(Debug)]
-struct File {
+pub struct File {
     name: String,
     data: Vec<u8>,
     state: FileState,
@@ -32,12 +37,23 @@ impl Display for File {
 }
 
 impl File {
-    fn new(name: &str) -> File {
+    /// New files are assumed to be empty, but a name is required.
+    pub fn new(name: &str) -> File {
         File {
             name: String::from(name),
             data: Vec::new(),
             state: FileState::Closed
         }
+    }
+
+    /// Returns the file's length in bytes.
+    pub fn len(&self) -> usize {
+        self.data.len()
+    }
+    
+    /// Returns the file's name.
+    pub fn name(&self) -> String {
+        self.name.clone()
     }
 
     fn read(self: &File, save_to: &mut Vec<u8>) -> Result<usize, String> {
@@ -50,6 +66,8 @@ impl File {
         save_to.append(&mut tmp);
         Ok(read_length)
     }
+
+
 }
 
 fn open(mut f: File) -> Result<File, String> {
